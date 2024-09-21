@@ -1,11 +1,29 @@
 version: "2"
 
 services:
+  node:
+    image: node:latest
+    working_dir: /app
+    command: npm test
+    depends_on:
+      lowkey-vault:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+    profiles:
+      - node
+
   lowkey-vault:
     container_name: lowkey-vault-nodejs
-    image: nagyesta/lowkey-vault:2.4.141@sha256:c55abcebf0ef410cc5fb4fa742b686cca7b818ef49597ccd1319ece0b438d4b1
+    hostname: lowkey.vault.azure.net
+    image: craig0990/lowkey-vault:latest
     ports:
       - "8080:8080"
       - "8443:8443"
+    healthcheck:
+      test: ["CMD-SHELL", " netstat -an | grep -q 8443"]
+      interval: 1s
+      retries: 3
+      start_period: 5s
     environment:
-      LOWKEY_ARGS: "--server.port=8443 --app.token.port=8080"
+      LOWKEY_ARGS: "--server.port=8443 --app.token.port=8080 --LOWKEY_VAULT_NAMES=lowkey --LOWKEY_VAULT_ALIASES=lowkey.localhost=lowkey.vault.azure.net:8443 --LOWKEY_AUTH_RESOURCE=vault.azure.net"

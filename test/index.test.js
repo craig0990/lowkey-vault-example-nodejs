@@ -24,10 +24,9 @@ describe('Key Vault', () => {
         process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'; // ONLY ON CI, NEVER USE ON PROD!
         let clearText = "a secret message";
         const credential = new NoopCredential();
-        const url = "https://localhost:8443";
+        const url = "https://lowkey.vault.azure.net:8443";
         let options = {
             serviceVersion: "7.4",
-            disableChallengeResourceVerification: true, // ONLY ON CI, NEVER USE ON PROD!
         };
         const client = new KeyClient(url, credential, options);
         await client.createRsaKey("rsa-key", {
@@ -51,10 +50,9 @@ describe('Key Vault', () => {
         let pass = "s3cret";
         let dbUrl = "jdbc:h2:mem:test_mem";
         const credential = new NoopCredential();
-        const url = "https://localhost:8443";
+        const url = "https://lowkey.vault.azure.net:8443";
         let options = {
             serviceVersion: "7.4",
-            disableChallengeResourceVerification: true, // ONLY ON CI, NEVER USE ON PROD!
         };
         const client = new SecretClient(url, credential, options);
         await client.setSecret("database", dbUrl);
@@ -82,10 +80,9 @@ describe('Key Vault', () => {
         process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'; // ONLY ON CI, NEVER USE ON PROD!
         let certificateName = "certificate";
         const credential = new NoopCredential();
-        const url = "https://localhost:8443";
+        const url = "https://lowkey.vault.azure.net:8443";
         let options = {
             serviceVersion: "7.4",
-            disableChallengeResourceVerification: true, // ONLY ON CI, NEVER USE ON PROD!
         };
         const certificateClient = new CertificateClient(url, credential, options);
         await certificateClient.beginCreateCertificate(certificateName, {

@@ -11,13 +11,12 @@ describe('Key Vault with Managed Identity', () => {
     it('Decrypt should return original text when called after encrypt', async () => {
         //given
         process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'; // ONLY ON CI, NEVER USE ON PROD!
-        process.env['AZURE_POD_IDENTITY_AUTHORITY_HOST'] = 'http://localhost:8080'; // override the default IMDS host
+        process.env['AZURE_POD_IDENTITY_AUTHORITY_HOST'] = 'http://lowkey.vault.azure.net:8080'; // override the default IMDS host
         let clearText = "a secret message";
         const credential = new DefaultAzureCredential(); // Will use Managed Identity via the Assumed Identity container
-        const url = "https://localhost:8443";
+        const url = "https://lowkey.vault.azure.net:8443";
         let options = {
             serviceVersion: "7.4",
-            disableChallengeResourceVerification: true, // ONLY ON CI, NEVER USE ON PROD!
         };
         const client = new KeyClient(url, credential, options);
         await client.createRsaKey("rsa-key", {
@@ -37,15 +36,14 @@ describe('Key Vault with Managed Identity', () => {
     it('Secrets should return previously set text when called', async () => {
         //given
         process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'; // ONLY ON CI, NEVER USE ON PROD!
-        process.env['AZURE_POD_IDENTITY_AUTHORITY_HOST'] = 'http://localhost:8080'; // override the default IMDS host
+        process.env['AZURE_POD_IDENTITY_AUTHORITY_HOST'] = 'http://lowkey.vault.azure.net:8080'; // override the default IMDS host
         let admin = "admin";
         let pass = "s3cret";
         let dbUrl = "jdbc:h2:mem:test_mem";
         const credential = new DefaultAzureCredential(); // Will use Managed Identity via the Assumed Identity container
-        const url = "https://localhost:8443";
+        const url = "https://lowkey.vault.azure.net:8443";
         let options = {
             serviceVersion: "7.4",
-            disableChallengeResourceVerification: true, // ONLY ON CI, NEVER USE ON PROD!
         };
         const client = new SecretClient(url, credential, options);
         await client.setSecret("database", dbUrl);
@@ -71,13 +69,12 @@ describe('Key Vault with Managed Identity', () => {
     it('Certificates should return base64 string of previously created certificate when called', async () => {
         //given
         process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'; // ONLY ON CI, NEVER USE ON PROD!
-        process.env['AZURE_POD_IDENTITY_AUTHORITY_HOST'] = 'http://localhost:8080'; // override the default IMDS host
+        process.env['AZURE_POD_IDENTITY_AUTHORITY_HOST'] = 'http://lowkey.vault.azure.net:8080'; // override the default IMDS host
         let certificateName = "certificate";
         const credential = new DefaultAzureCredential(); // Will use Managed Identity via the Assumed Identity container
-        const url = "https://localhost:8443";
+        const url = "https://lowkey.vault.azure.net:8443";
         let options = {
             serviceVersion: "7.4",
-            disableChallengeResourceVerification: true, // ONLY ON CI, NEVER USE ON PROD!
         };
         const certificateClient = new CertificateClient(url, credential, options);
         await certificateClient.beginCreateCertificate(certificateName, {

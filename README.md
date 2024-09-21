@@ -1,3 +1,13 @@
+> [!IMPORTANT]
+> Modified to run Lowkey Vault with a `lowkey.vault.azure.net` hostname in Docker, which means the Node test cases need to run in Docker as well.
+>
+> Start the compose file as normal to run Lowkey Vault: `docker compose up` (the profiles will prevent the tests running until we're ready)
+>
+> Run the tests with `docker compose run node npm test`
+>
+> (You can run them together with `docker compose --profile node up` but the output gets mixed together and can be difficult to read)
+
+
 ![LowkeyVault](https://raw.githubusercontent.com/nagyesta/lowkey-vault/main/.github/assets/LowkeyVault-logo-full.png)
 
 [![GitHub license](https://img.shields.io/github/license/nagyesta/lowkey-vault-example-nodejs?color=informational)](https://raw.githubusercontent.com/nagyesta/lowkey-vault-example-nodejs/main/LICENSE)
